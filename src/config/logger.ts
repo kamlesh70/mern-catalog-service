@@ -1,6 +1,5 @@
 import winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-import { APP_CONFIG } from ".";
 
 const logger = winston.createLogger({
   level: "info",
@@ -23,7 +22,7 @@ const logger = winston.createLogger({
       datePattern: "YYYY-MM-DD",
       zippedArchive: true,
       level: "info",
-      silent: APP_CONFIG.NODE_ENV === "test",
+      silent: process.env.NODE_ENV === "test",
     }),
     // new winston.transports.File({
     //     dirname: "logs",
@@ -38,7 +37,7 @@ const logger = winston.createLogger({
       datePattern: "YYYY-MM-DD",
       zippedArchive: true,
       level: "error",
-      silent: APP_CONFIG.NODE_ENV === "test",
+      silent: process.env.NODE_ENV === "test",
     }),
     // new winston.transports.File({
     //     dirname: "logs",
@@ -48,7 +47,7 @@ const logger = winston.createLogger({
     // }),
     new winston.transports.Console({
       level: "info",
-      silent: APP_CONFIG.NODE_ENV === "test",
+      silent: process.env.NODE_ENV === "test",
     }),
   ],
 });

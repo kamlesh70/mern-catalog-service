@@ -4,9 +4,9 @@
   "description": "catalog service for pizza application",
   "main": "app.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev nodemon ./src/server.ts",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/server.ts",
     "build": "tsc",
-    "start": "cross-env NODE_ENV=dev node ./dist/src/server.js",
+    "start": "cross-env NODE_ENV=production node ./dist/src/server.js",
     "format:check": "prettier . --check",
     "format:fix": "prettier . --write",
     "lint": "eslint .",
@@ -16,6 +16,7 @@
   "author": "kamlesh mehra",
   "license": "ISC",
   "devDependencies": {
+    "@types/config": "^3.3.4",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.20",
@@ -45,9 +46,11 @@
   },
   "dependencies": {
     "@types/winston": "^2.4.4",
+    "config": "^3.3.11",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "http-errors": "^2.0.0",
+    "js-yaml": "^4.1.0",
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^5.0.0"

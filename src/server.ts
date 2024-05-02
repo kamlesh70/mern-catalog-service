@@ -1,10 +1,10 @@
 import app from "./app";
-import { APP_CONFIG } from "./config";
+import config from 'config';
 import logger from "./config/logger";
 
 function serverBootstrap() {
   try {
-    const PORT = APP_CONFIG.PORT;
+    const PORT: number = config.get('server.PORT') || 5500;
     console.log(PORT);
     app.listen(PORT, () => {
       logger.info(`Listening on port number ${PORT}`);
