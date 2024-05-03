@@ -1,18 +1,20 @@
 import app from "./app";
 import config from 'config';
 import logger from "./config/logger";
+import connectDatabase from "./db";
 
-function serverBootstrap() {
+async function serverBootstrap() {
   try {
-    const PORT: number = config.get('server.PORT') || 5500;
-    console.log(PORT);
+    const PORT: number = config.get('server.PORT') ?? 5500;
+    await connectDatabase();
+    logger.info(`Connected to database successfully!`);
     app.listen(PORT, () => {
       logger.info(`Listening on port number ${PORT}`);
     });
   } catch (error) {
-    console.log("getting error while starting server");
+    logger.info(error);
     process.exit(1);
   }
 }
 
-serverBootstrap();
+void serverBootstrap();
