@@ -12,7 +12,7 @@ const globalErrorHandler = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
 ) => {
-  const statusCode = err.status || 500;
+  const statusCode = err.status || err.name === 'ValidationError' ? 400 : 500;
   const isProduction = process.env.NODE_ENV === "production";
   const message = isProduction ? "Internal server error" : err.message;
   logger.error({
