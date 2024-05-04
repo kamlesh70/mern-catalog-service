@@ -1,63 +1,69 @@
 import mongoose from "mongoose";
-import { IAttribute, IPriceConfiguration, PriceTypeEnum, WidgetTypeEnum } from "./category.type";
+import {
+  IAttribute,
+  IPriceConfiguration,
+  PriceTypeEnum,
+  WidgetTypeEnum,
+} from "./category.type";
 
 const priceConfigurationSchema = new mongoose.Schema<IPriceConfiguration>({
   priceType: {
     type: String,
     required: true,
-    enum: PriceTypeEnum
+    enum: PriceTypeEnum,
   },
   defaultValue: {
     type: String,
-    required: true
+    required: true,
   },
   availableOptions: {
     type: [String],
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const attributesSchema = new mongoose.Schema<IAttribute>({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   widgetType: {
     type: String,
     required: true,
-    enum: WidgetTypeEnum
+    enum: WidgetTypeEnum,
   },
   defaultValue: {
     type: String,
-    required: true
+    required: true,
   },
   availableOptions: {
     type: [String],
-    required: true
-  }
+    required: true,
+  },
 });
 
-const categorySchema = new mongoose.Schema({
-  name : {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  priceConfiguration: {
-    type: Map,
-    of: priceConfigurationSchema,
-    required: true
-  },
-  attributes: {
-    type: [attributesSchema],
-    required: true
-  }
-}, 
+const categorySchema = new mongoose.Schema(
   {
-   timestamps: true 
-  }
-)
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    priceConfiguration: {
+      type: Map,
+      of: priceConfigurationSchema,
+      required: true,
+    },
+    attributes: {
+      type: [attributesSchema],
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-const Category = mongoose.model('Category', categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
 export default Category;
