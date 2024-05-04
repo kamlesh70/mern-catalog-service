@@ -1,25 +1,25 @@
-export type PriceType = 'base' | 'additional';
-export type WidgetType = 'radio' | 'switch';
+export type PriceType = "base" | "additional";
+export type WidgetType = "radio" | "switch";
 
 export enum PriceTypeEnum {
-  base = 'base',
-  additional = 'additional'
+  base = "base",
+  additional = "additional",
 }
 
 export enum WidgetTypeEnum {
-  radio = 'radio',
-  switch ='switch'
+  radio = "radio",
+  switch = "switch",
 }
 
 export interface IPriceConfiguration {
-  [key: string] : {
+  [key: string]: {
     priceType: PriceType;
     defaultValue: string;
     availableOptions: string[];
-  }
+  };
 }
 
-export interface IAttribute{
+export interface IAttribute {
   name: string;
   widgetType: WidgetType;
   defaultValue: string;
