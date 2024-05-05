@@ -12,10 +12,6 @@ const priceConfigurationSchema = new mongoose.Schema<IPriceConfiguration>({
     required: true,
     enum: PriceTypeEnum,
   },
-  defaultValue: {
-    type: String,
-    required: true,
-  },
   availableOptions: {
     type: [String],
     required: true,

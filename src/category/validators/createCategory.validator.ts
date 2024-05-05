@@ -6,7 +6,6 @@ const priceConfigurationJoiSchema = Joi.object({
   priceType: Joi.string()
     .valid(PriceTypeEnum.base, PriceTypeEnum.additional)
     .required(),
-  defaultValue: Joi.string().required(),
   availableOptions: Joi.array().items(Joi.string()).required(),
 });
 
