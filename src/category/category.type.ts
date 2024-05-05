@@ -14,7 +14,6 @@ export enum WidgetTypeEnum {
 export interface IPriceConfiguration {
   [key: string]: {
     priceType: PriceType;
-    defaultValue: string;
     availableOptions: string[];
   };
 }
