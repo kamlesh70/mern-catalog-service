@@ -24,6 +24,7 @@ const productValidationSchema = Joi.object({
   attributes: Joi.array().items(attributesProductJoiSchema).required(),
   tenantId: Joi.string().required(),
   categoryId: Joi.string().required(),
+  isPublish: Joi.boolean().required(),
 });
 
 export default async function createProductValidator(

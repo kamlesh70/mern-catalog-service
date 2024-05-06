@@ -1,13 +1,13 @@
 import { ICategory } from "./category.type";
-import Category from "./category.model";
+import categoryModel from "./category.model";
 
 export class CategoryService {
   async create(category: ICategory) {
-    return await Category.create(category);
+    return await categoryModel.create(category);
   }
 
   async isDuplicateCategory(category: ICategory) {
-    const duplicate = await Category.findOne({ name: category.name });
+    const duplicate = await categoryModel.findOne({ name: category.name });
     if (duplicate) {
       return true;
     }

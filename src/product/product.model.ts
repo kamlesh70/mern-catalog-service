@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { PriceTypeEnum } from "../category/category.type";
-import { string } from "joi";
 
 const priceConfigurationSchema = new mongoose.Schema({
   priceType: {
@@ -31,6 +30,7 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
 
     description: {
@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema(
     attributes: [attributesSchema],
 
     tenantId: {
-      type: string,
+      type: String,
       required: true,
     },
 
@@ -61,10 +61,16 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
+
+    isPublish: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true },
 );
 
-const Product = mongoose.model("Product", productSchema);
+const productModel = mongoose.model("Product", productSchema);
 
-export default Product;
+export default productModel;

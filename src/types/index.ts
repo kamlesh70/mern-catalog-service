@@ -10,3 +10,12 @@ export interface UserFromRequest extends Request {
     id?: string;
   };
 }
+
+export interface fileData {
+  filename: string;
+  fileData: ArrayBuffer;
+}
+
+export interface fileStorage {
+  uploadFile(fileData: fileData): Promise<any>;
+}
