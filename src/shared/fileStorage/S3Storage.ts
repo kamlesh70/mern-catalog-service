@@ -1,10 +1,7 @@
-import {
-  PutObjectCommand,
-  PutObjectCommandInput,
-  S3Client,
-} from "@aws-sdk/client-s3";
+import { PutObjectCommandInput, S3Client } from "@aws-sdk/client-s3";
 import config from "config";
 import { fileData, fileStorage } from "../../types";
+import { Upload } from "@aws-sdk/lib-storage";
 
 export class S3Storage implements fileStorage {
   private readonly s3client: S3Client;
@@ -20,12 +17,19 @@ export class S3Storage implements fileStorage {
 
   async uploadFile(fileData: fileData): Promise<any> {
     const payload = {
-      Bucket: config.get("s3.bucket"),
-      Key: fileData.filename,
+      Bucket: config.get("s3.bucketName"),
+      Key: fileData.fileName,
       Body: fileData.fileData,
     } as PutObjectCommandInput;
 
-    const data = await this.s3client.send(new PutObjectCommand(payload));
-    return data;
+    const upload = new Upload({
+      client: this.s3client,
+      params: payload,
+      queueSize: 4, // optional concurrency configuration
+      partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
+      leavePartsOnError: false, // optional manually handle dropped parts
+    });
+
+    return await upload.done();
   }
 }

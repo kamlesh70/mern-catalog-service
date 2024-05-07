@@ -8,14 +8,30 @@ import logger from "../config/logger";
 import createProductValidator from "./validators/createProduct.validator";
 import fileUpload from "express-fileupload";
 import createHttpError from "http-errors";
+import { S3Storage } from "../shared/fileStorage/S3Storage";
 
 const router = express.Router();
 
 const productService = new ProductService();
-const productController = new ProductController(productService, logger);
+const s3Storage = new S3Storage();
+const productController = new ProductController(
+  productService,
+  logger,
+  s3Storage,
+);
 
 router.post(
   "/create",
+  authenticate,
+  canAccess([Roles.ADMIN, Roles.MANAGER]),
+  createProductValidator,
+  (req: Request, res: Response, next: NextFunction) => {
+    return productController.create(req, res, next);
+  },
+);
+
+router.post(
+  "/file-upload",
   authenticate,
   canAccess([Roles.ADMIN, Roles.MANAGER]),
   fileUpload({
@@ -26,9 +42,8 @@ router.post(
       next(error);
     },
   }),
-  createProductValidator,
   (req: Request, res: Response, next: NextFunction) => {
-    return productController.create(req, res, next);
+    return productController.fileUpload(req, res, next);
   },
 );
 

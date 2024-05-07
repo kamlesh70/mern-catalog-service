@@ -12,7 +12,7 @@ export interface UserFromRequest extends Request {
 }
 
 export interface fileData {
-  filename: string;
+  fileName: string;
   fileData: ArrayBuffer;
 }
 
