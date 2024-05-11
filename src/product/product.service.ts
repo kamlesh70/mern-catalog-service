@@ -6,6 +6,13 @@ export class ProductService {
     return await productModel.create(product);
   }
 
+  async getProducts() {
+    return await productModel.find().populate({
+      path: "categoryId",
+      select: "name",
+    });
+  }
+
   async isDuplicateProduct(name: string) {
     const product = await productModel.findOne({ name });
     return !!product;

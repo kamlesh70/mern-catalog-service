@@ -20,6 +20,15 @@ const productController = new ProductController(
   s3Storage,
 );
 
+router.get(
+  "/list",
+  authenticate,
+  canAccess([Roles.ADMIN, Roles.MANAGER]),
+  (req: Request, res: Response, next: NextFunction) => {
+    return productController.getProducts(req, res, next);
+  },
+);
+
 router.post(
   "/create",
   authenticate,

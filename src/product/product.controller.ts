@@ -34,6 +34,15 @@ export class ProductController {
     }
   }
 
+  async getProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products = await this.productService.getProducts();
+      res.status(200).json(products);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async fileUpload(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.files || !req?.files?.product) {
