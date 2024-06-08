@@ -1,3 +1,4 @@
+import { SortOrder } from "mongoose";
 import productModel from "./product.model";
 import { IProduct } from "./product.type";
 
@@ -6,11 +7,26 @@ export class ProductService {
     return await productModel.create(product);
   }
 
-  async getProducts() {
-    return await productModel.find().populate({
-      path: "categoryId",
-      select: "name",
-    });
+  async getProducts(
+    page: number,
+    limit: number,
+    orderBy: string,
+    order: SortOrder,
+  ) {
+    const products = await productModel
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ [orderBy]: order })
+      .populate({
+        path: "categoryId",
+        select: "name",
+      });
+    const productCount = await productModel.countDocuments();
+    return {
+      products,
+      productCount,
+    };
   }
 
   async isDuplicateProduct(name: string) {

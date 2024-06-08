@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 import { fileStorage } from "../types";
 import { UploadedFile } from "express-fileupload";
 import { CompleteMultipartUploadCommandOutput } from "@aws-sdk/client-s3";
+import { getOrder } from "../constants";
+import { SortOrder } from "mongoose";
 
 export class ProductController {
   constructor(
@@ -36,8 +38,22 @@ export class ProductController {
 
   async getProducts(req: Request, res: Response, next: NextFunction) {
     try {
-      const products = await this.productService.getProducts();
-      res.status(200).json(products);
+      const pagination: any = req.query;
+      const page: number = +(pagination?.page ?? 1);
+      const limit: number = +(pagination?.limit ?? 5);
+      const order: SortOrder = getOrder(pagination?.order as string);
+      const orderBy: string = pagination?.orderBy ?? "createdAt";
+      const products = await this.productService.getProducts(
+        page,
+        limit,
+        orderBy,
+        order,
+      );
+      res.status(200).json({
+        ...products,
+        page,
+        limit,
+      });
     } catch (error) {
       next(error);
     }
