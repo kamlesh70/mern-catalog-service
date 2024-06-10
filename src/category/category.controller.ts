@@ -30,4 +30,13 @@ export class CategoryController {
       next(error);
     }
   }
+
+  async getAllCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const categories = await this.categoryService.getAllCategory();
+      res.status(200).json({ categories });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

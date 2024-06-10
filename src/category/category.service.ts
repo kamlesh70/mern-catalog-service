@@ -13,4 +13,8 @@ export class CategoryService {
     }
     return false;
   }
+
+  async getAllCategory() {
+    return await categoryModel.find();
+  }
 }
