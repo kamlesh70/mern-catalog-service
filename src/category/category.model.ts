@@ -45,7 +45,7 @@ const categorySchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    priceConfiguration: {
+    priceConfigurations: {
       type: Map,
       of: priceConfigurationSchema,
       required: true,
