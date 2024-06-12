@@ -20,7 +20,7 @@ const attributesJoiSchema = Joi.object({
 
 const schema = Joi.object({
   name: Joi.string().required(),
-  priceConfiguration: Joi.object()
+  priceConfigurations: Joi.object()
     .pattern(Joi.string(), priceConfigurationJoiSchema)
     .required(),
   attributes: Joi.array().items(attributesJoiSchema),
