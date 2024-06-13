@@ -22,8 +22,8 @@ const productController = new ProductController(
 
 router.get(
   "/list",
-  authenticate,
-  canAccess([Roles.ADMIN, Roles.MANAGER]),
+  // authenticate,
+  // canAccess([Roles.ADMIN, Roles.MANAGER]),
   (req: Request, res: Response, next: NextFunction) => {
     return productController.getProducts(req, res, next);
   },
