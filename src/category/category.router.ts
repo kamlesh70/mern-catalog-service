@@ -26,8 +26,8 @@ router.post(
 
 router.get(
   "/list",
-  authenticate,
-  canAccess([Roles.ADMIN, Roles.MANAGER]),
+  // authenticate,
+  // canAccess([Roles.ADMIN, Roles.MANAGER]),
   (req: Request, res: Response, next: NextFunction) => {
     return categoryController.getAllCategory(req, res, next);
   },
