@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import categoryRouter from "./category/category.router";
 import productRouter from "./product/product.router";
+import toppingRouter from "./topping/topping.router";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", async (_: Request, res: Response) => {
 // api router
 app.use("/category", categoryRouter);
 app.use("/product", productRouter);
+app.use("/topping", toppingRouter);
 
 app.use(globalErrorHandler);
 
