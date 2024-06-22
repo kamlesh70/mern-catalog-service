@@ -20,7 +20,6 @@ export class ProductService {
       .sort({ [orderBy]: order })
       .populate({
         path: "categoryId",
-        select: "name",
       });
     const productCount = await productModel.countDocuments();
     return {
