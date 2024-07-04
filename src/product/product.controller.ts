@@ -10,12 +10,15 @@ import { UploadedFile } from "express-fileupload";
 import { CompleteMultipartUploadCommandOutput } from "@aws-sdk/client-s3";
 import { getOrder } from "../constants";
 import { SortOrder } from "mongoose";
+import { BrokerProducerInterface } from "../types/brokerProducer";
+import config from "config";
 
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
     private readonly logger: Logger,
     private readonly storageService: fileStorage,
+    private readonly broker: BrokerProducerInterface,
   ) {}
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -30,6 +33,19 @@ export class ProductController {
       }
       const product = await this.productService.create(body);
       this.logger.info(`Product created`, product);
+      const topic: string = config.get("broker.topic.product");
+      console.log(product, "==================================");
+      void this.broker.sendMessage(
+        topic,
+        JSON.stringify(
+          {
+            id: product.id,
+            priceConfigurations: product.priceConfigurations,
+          },
+          null,
+          4,
+        ),
+      );
       res.status(201).json({ id: product?.id });
     } catch (error) {
       next(error);
