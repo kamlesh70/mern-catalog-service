@@ -9,15 +9,18 @@ import createProductValidator from "./validators/createProduct.validator";
 import fileUpload from "express-fileupload";
 import createHttpError from "http-errors";
 import { S3Storage } from "../shared/fileStorage/S3Storage";
+import { brokerInstance } from "../shared/factories/broker";
 
 const router = express.Router();
 
 const productService = new ProductService();
 const s3Storage = new S3Storage();
+const broker = brokerInstance();
 const productController = new ProductController(
   productService,
   logger,
   s3Storage,
+  broker,
 );
 
 router.get(
