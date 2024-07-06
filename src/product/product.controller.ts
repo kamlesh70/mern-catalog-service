@@ -12,6 +12,7 @@ import { getOrder } from "../constants";
 import { SortOrder } from "mongoose";
 import { BrokerProducerInterface } from "../types/brokerProducer";
 import config from "config";
+import { convertMapToObject } from "../util";
 
 export class ProductController {
   constructor(
@@ -34,17 +35,15 @@ export class ProductController {
       const product = await this.productService.create(body);
       this.logger.info(`Product created`, product);
       const topic: string = config.get("broker.topic.product");
-      console.log(product, "==================================");
+      const serializePriceConfigurations = convertMapToObject(
+        product?.priceConfigurations,
+      );
       void this.broker.sendMessage(
         topic,
-        JSON.stringify(
-          {
-            id: product.id,
-            priceConfigurations: product.priceConfigurations,
-          },
-          null,
-          4,
-        ),
+        JSON.stringify({
+          id: product.id,
+          priceConfigurations: serializePriceConfigurations,
+        }),
       );
       res.status(201).json({ id: product?.id });
     } catch (error) {
