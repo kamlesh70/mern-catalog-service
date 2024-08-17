@@ -21,6 +21,7 @@ export class ProductService {
       .populate({
         path: "categoryId",
       });
+
     const productCount = await productModel.countDocuments();
     return {
       products,
