@@ -12,7 +12,7 @@ export class ProductService {
     limit: number,
     orderBy: string,
     order: SortOrder,
-    tenantId: string,
+    tenantId: string | null,
   ) {
     if (tenantId) {
       const products = await productModel
