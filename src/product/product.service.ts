@@ -12,7 +12,23 @@ export class ProductService {
     limit: number,
     orderBy: string,
     order: SortOrder,
+    tenantId: string,
   ) {
+    if (tenantId) {
+      const products = await productModel
+        .find({ tenantId })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ [orderBy]: order })
+        .populate({
+          path: "categoryId",
+        });
+      const productCount = await productModel.countDocuments({ tenantId });
+      return {
+        products,
+        productCount,
+      };
+    }
     const products = await productModel
       .find()
       .skip((page - 1) * limit)

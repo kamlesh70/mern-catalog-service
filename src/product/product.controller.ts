@@ -56,6 +56,7 @@ export class ProductController {
       const pagination: any = req.query;
       const page: number = +(pagination?.page ?? 1);
       const limit: number = +(pagination?.limit ?? 5);
+      const tenantId: string = pagination?.tenantId;
       const order: SortOrder = getOrder(pagination?.order as string);
       const orderBy: string = pagination?.orderBy ?? "createdAt";
       const products = await this.productService.getProducts(
@@ -63,6 +64,7 @@ export class ProductController {
         limit,
         orderBy,
         order,
+        tenantId,
       );
       res.status(200).json({
         ...products,
